@@ -9,9 +9,10 @@ class Mastermind
   end
 
   def play
+    @secret.reveal
     until @secret.victory || @rounds > @max_rounds
       input = prompt_user
-      @secret.compare(input)
+      print "#{@secret.check(input)}\n"
       @rounds += 1
     end
     game_end
@@ -19,7 +20,18 @@ class Mastermind
 
   def prompt_user
     puts "Please enter your guess (#{@rounds}/#{@max_rounds}):"
-    gets.split('')
+    user_input = gets
+
+    until verify_input(user_input)
+      puts 'Invalid guess. Please guess a 4 digit number, with digits 1-6:'
+      user_input = gets
+    end
+
+    user_input.split('').map(&:to_i)
+  end
+
+  def verify_input(input)
+    /^[1-6]{4}$/.match(input)
   end
 
   def game_end
