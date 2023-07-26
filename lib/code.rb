@@ -2,8 +2,11 @@
 
 # class for secret code
 class Code
+  attr_reader :victory
+
   def initialize
     @secret = generate
+    @victory = false
   end
 
   def generate
@@ -14,9 +17,15 @@ class Code
     c
   end
 
+  def check(guess)
+    guess
+  end
+
   # compares guess with secret, returning an array
   # [correct, correct but wrong position]
   def compare(guess)
-    [guess - 4, 1]
+    guess.each_with_index do |x, ind|
+      # TODO: comparing function
+    end
   end
 end
