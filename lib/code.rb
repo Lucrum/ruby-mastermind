@@ -32,17 +32,28 @@ class Code
   def compare(guess)
     temp_secret = @secret.dup
     res = [0, 0]
+    res[0] = direct_compare_all(guess, temp_secret)
+    res[1] = search_compare_all(guess, temp_secret)
+    res
+  end
+
+  # direct compare first, then search compare
+
+  def direct_compare_all(guess, temp_secret)
+    res = 0
     (guess.length - 1).times do |ind|
-      if direct_compare(guess, temp_secret, ind)
-        res[0] += 1
-      elsif search_compare(guess, temp_secret, ind)
-        res[1] += 1
-      end
+      res += 1 if direct_compare(guess, temp_secret, ind)
     end
     res
   end
 
-  # wrong response in the case of 5,2,3,2 and guess 5,2,2,2
+  def search_compare_all(guess, temp_secret)
+    res = 0
+    (guess.length - 1).times do |ind|
+      res += 1 if search_compare(guess, temp_secret, ind)
+    end
+    res
+  end
 
   def direct_compare(guess, ans, ind)
     return unless guess[ind] == ans[ind]

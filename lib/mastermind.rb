@@ -9,7 +9,8 @@ class Mastermind
   end
 
   def play
-    @secret.reveal
+    # debug purposes
+    # @secret.reveal
     until @secret.victory || @rounds > @max_rounds
       input = prompt_user
       print "#{@secret.check(input)}\n"
