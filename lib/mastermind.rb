@@ -18,7 +18,7 @@ class Mastermind
 
   def enter_game_loop
     code_breaker_play if @game_type == 1
-    code_master_play
+    code_maker_play
   end
 
   # game loop if player is code breaker
@@ -32,11 +32,11 @@ class Mastermind
       print "#{secret.check(input)}\n"
       @rounds += 1
     end
-    game_end
+    game_end(secret.victory)
   end
 
   def prompt_user_guess
-    puts "Please enter your guess (#{@rounds}/#{@max_rounds}):"
+    puts "\nPlease enter your guess (#{@rounds}/#{@max_rounds}):"
     user_input = gets
 
     until verify_input(user_input, /^[1-6]{4}$/)
@@ -44,11 +44,11 @@ class Mastermind
       user_input = gets
     end
 
-    user_input.split('').map(&:to_i)
+    user_input.strip.split('').map(&:to_i)
   end
 
   # game loop if player is code master
-  def code_master_play
+  def code_maker_play
     code_master_intro
     comp = Computer.new
 
@@ -57,6 +57,8 @@ class Mastermind
       comp.feedback(prompt_user_feedback)
       @rounds += 1
     end
+
+    game_end(!comp.victory)
   end
 
   def prompt_user_feedback
@@ -66,6 +68,7 @@ class Mastermind
       puts "Invalid feedback. Please enter feedback in the form 'X,Y', with a single comma between."
       user_input = gets
     end
+    [user_input[0].to_i, user_input[2].to_i]
   end
 
   def verify_input(input, reg)
@@ -79,8 +82,8 @@ class Mastermind
     true
   end
 
-  def game_end
-    if @secret.victory
+  def game_end(victory)
+    if victory
       puts 'You win!'
     else
       puts 'You lose!'

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'checker'
+
 # computer ai class
 class Computer
   attr_reader :victory
@@ -32,12 +34,15 @@ class Computer
     @guess
   end
 
-  def feedback(result)
-    
-  end
-
-  # removes ALL possible answers based on user feedback
-  def remove_tokens(guess, ans)
-
+  def feedback(resp)
+    fresh_pool = []
+    if resp == [4, 0]
+      @victory = true
+    else
+      @token_pool.each do |x|
+        fresh_pool.append(x) if compare(x, @guess) == resp
+      end
+      @token_pool = fresh_pool
+    end
   end
 end
