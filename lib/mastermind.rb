@@ -24,18 +24,18 @@ class Mastermind
     code_breaker_intro
     until secret.victory || @rounds > @max_rounds
       input = prompt_user_guess
-      print "#{secret.check(input)}\n"
+      print "Code maker says: #{secret.check(input)}\n"
       @rounds += 1
     end
     game_end_message(secret.victory)
   end
 
   def prompt_user_guess
-    puts "\nPlease enter your guess (#{@rounds}/#{@max_rounds}):"
+    print "\nPlease enter your guess (#{@rounds}/#{@max_rounds}): "
     user_input = gets
 
     until verify_input(user_input, /^[1-6]{4}$/)
-      puts 'Invalid guess. Please guess a 4 digit number, with digits 1-6:'
+      print 'Invalid guess. Please guess a 4 digit number, with digits 1-6: '
       user_input = gets
     end
 
