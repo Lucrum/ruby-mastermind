@@ -13,12 +13,7 @@ class Mastermind
   def play
     introduction
     mode
-    enter_game_loop
-  end
-
-  def enter_game_loop
-    code_breaker_play if @game_type == 1
-    code_maker_play
+    @game_type == 1 ? code_breaker_play : code_maker_play
   end
 
   # game loop if player is code breaker
@@ -32,7 +27,7 @@ class Mastermind
       print "#{secret.check(input)}\n"
       @rounds += 1
     end
-    game_end(secret.victory)
+    game_end_message(secret.victory)
   end
 
   def prompt_user_guess
@@ -52,20 +47,22 @@ class Mastermind
     code_master_intro
     comp = Computer.new
 
-    until comp.victory || @rounds > @max_rounds
-      puts "Round #{@rounds} | The computer has guessed: #{comp.guess}"
+    until comp.victory || @rounds > @max_rounds || comp.victory == false
+      puts "\nRound #{@rounds} | The computer has guessed: #{comp.guess}"
       comp.feedback(prompt_user_feedback)
       @rounds += 1
     end
 
-    game_end(!comp.victory)
+    game_end_message(!comp.victory)
   end
 
   def prompt_user_feedback
-    print 'What is your response? '
+    print 'Enter your response: '
     user_input = gets
     until verify_feedback(user_input)
-      puts "Invalid feedback. Please enter feedback in the form 'X,Y', with a single comma between."
+      puts "Invalid feedback. Please enter feedback in the form 'X,Y', with a single comma between.
+The digits should not add to more than 4."
+      print 'Enter your response: '
       user_input = gets
     end
     [user_input[0].to_i, user_input[2].to_i]
@@ -82,20 +79,24 @@ class Mastermind
     true
   end
 
-  def game_end(victory)
-    if victory
-      puts 'You win!'
+  def game_end_message(victory)
+    if victory && @game_type == 1
+      puts "\nYou broke the code!"
+    elsif victory
+      puts "\nThe computer surrenders! Your code was too strong!"
+    elsif @game_type == 1
+      puts "\nYou took too long to break the code!"
     else
-      puts 'You lose!'
+      puts "\nThe computer guessed your code!"
     end
   end
 
   def mode
-    print "Would you like to be the code breaker or code master?
+    print "Would you like to be the code breaker or code maker?
 1 for breaker, 2 for master: "
     user_input = gets
     until verify_input(user_input, /^[1-2]{1}$/)
-      print 'Invalid choice. Please enter 1 for breaker, 2 for master: '
+      print 'Invalid choice. Please enter 1 for breaker, 2 for maker: '
       user_input = gets
     end
 

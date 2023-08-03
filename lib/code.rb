@@ -7,10 +7,8 @@ class Code
   attr_reader :victory
 
   def initialize
-    # @secret = generate_code
-    @secret = [1, 6, 4, 2]
+    @secret = generate_code
     @victory = false
-    reveal
   end
 
   def generate_code

@@ -9,7 +9,7 @@ class Computer
   def initialize
     @token_pool = []
     generate_pool
-    @victory = false
+    @victory = nil
     @guess = []
   end
 
@@ -35,14 +35,19 @@ class Computer
   end
 
   def feedback(resp)
-    fresh_pool = []
     if resp == [4, 0]
       @victory = true
     else
-      @token_pool.each do |x|
-        fresh_pool.append(x) if compare(x, @guess) == resp
-      end
-      @token_pool = fresh_pool
+      remove_all_tokens(resp)
+      @victory = false if @token_pool.empty?
     end
+  end
+
+  def remove_all_tokens(resp)
+    fresh_pool = []
+    @token_pool.each do |x|
+      fresh_pool.append(x) if compare(x, @guess) == resp
+    end
+    @token_pool = fresh_pool
   end
 end
