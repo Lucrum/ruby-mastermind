@@ -26,7 +26,7 @@ class Mastermind
       print "Code maker says: #{secret.check(input)}\n"
       @rounds += 1
     end
-    game_end_message(secret.victory)
+    game_end_message(secret.victory, code: secret.secret_code)
   end
 
   # asks the user for their guess of the code
@@ -81,13 +81,13 @@ The digits should not add to more than 4."
     true
   end
 
-  def game_end_message(victory)
+  def game_end_message(victory, code: nil)
     if victory && @game_type == 1
       puts "\nYou broke the code!"
     elsif victory
       puts "\nThe computer surrenders! Your code was too strong!"
     elsif @game_type == 1
-      puts "\nYou took too long to break the code!"
+      puts "\nYou took too long to break the code! The code was: #{code}"
     else
       puts "\nThe computer guessed your code!"
     end

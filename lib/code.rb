@@ -4,10 +4,10 @@ require_relative 'checker'
 
 # class for secret code
 class Code
-  attr_reader :victory
+  attr_reader :victory, :secret_code
 
   def initialize
-    @secret = generate_code
+    @secret_code = generate_code
     @victory = false
   end
 
@@ -19,12 +19,8 @@ class Code
     c
   end
 
-  def reveal
-    print "#{@secret}\n"
-  end
-
   def check(guess)
-    compare_res = compare(guess, @secret)
+    compare_res = compare(guess, @secret_code)
     @victory = compare_res == [4, 0]
     compare_res
   end
