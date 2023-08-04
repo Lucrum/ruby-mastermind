@@ -14,14 +14,22 @@ end
 def code_maker_intro
   puts "--------------------------
 Welcome, code maker.
-Your job is to provide feedback to the computer's guesses, using two digits, separated by a space.
+Your job is to provide feedback to the computer's guesses, using two digits, separated by a comma.
 
 The first digit will be the number of correct numbers in the correct position,
 and the second digit will be the number of correct numbers in the wrong position.
 
-For example, if your code is [5216], and the guess is [5613], the correct
+For example, if your code is [5216], and the guess is [5, 6, 1, 3], the correct
 feedback would be [1,2]. The 5 is in the correct position, but 6 and 1 are not.
-Without further ado, please write down a code, and let's begin.\n"
+Without further ado, please create a code, and let's begin.\n"
+  dot_loop
+end
+
+def dot_loop
+  3.times do
+    print '.'
+    sleep 1
+  end
 end
 
 def code_breaker_intro

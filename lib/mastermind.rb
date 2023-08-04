@@ -46,8 +46,6 @@ class Mastermind
   def code_maker_play
     code_maker_intro
     comp = Computer.new
-    sleep 2
-
     until comp.victory || @rounds > @max_rounds || comp.victory == false
       sleep 1
       puts "\nRound #{@rounds} of #{@max_rounds} | The computer has guessed: #{comp.guess}"
