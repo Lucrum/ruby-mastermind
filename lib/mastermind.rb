@@ -4,9 +4,9 @@ require_relative 'explanation'
 
 # game logic class
 class Mastermind
-  def initialize(max_rounds)
+  def initialize
     @rounds = 1
-    @max_rounds = max_rounds
+    @max_rounds = 12
     @game_type = 1
   end
 
@@ -18,20 +18,20 @@ class Mastermind
 
   # game loop if player is code breaker
   def code_breaker_play
-    # debug purposes
-    # @secret.reveal
     secret = Code.new
     code_breaker_intro
     until secret.victory || @rounds > @max_rounds
       input = prompt_user_guess
+      sleep 1
       print "Code maker says: #{secret.check(input)}\n"
       @rounds += 1
     end
     game_end_message(secret.victory)
   end
 
+  # asks the user for their guess of the code
   def prompt_user_guess
-    print "\nPlease enter your guess (#{@rounds}/#{@max_rounds}): "
+    print "\nRound #{@rounds} of #{@max_rounds} | Please enter your guess: "
     user_input = gets
 
     until verify_input(user_input, /^[1-6]{4}$/)
@@ -42,13 +42,15 @@ class Mastermind
     user_input.strip.split('').map(&:to_i)
   end
 
-  # game loop if player is code master
+  # game loop if player is code maker
   def code_maker_play
-    code_master_intro
+    code_maker_intro
     comp = Computer.new
+    sleep 2
 
     until comp.victory || @rounds > @max_rounds || comp.victory == false
-      puts "\nRound #{@rounds} | The computer has guessed: #{comp.guess}"
+      sleep 1
+      puts "\nRound #{@rounds} of #{@max_rounds} | The computer has guessed: #{comp.guess}"
       comp.feedback(prompt_user_feedback)
       @rounds += 1
     end
@@ -56,6 +58,7 @@ class Mastermind
     game_end_message(!comp.victory)
   end
 
+  # obtains feedback from the user after guessing
   def prompt_user_feedback
     print 'Enter your response: '
     user_input = gets
@@ -68,6 +71,7 @@ The digits should not add to more than 4."
     [user_input[0].to_i, user_input[2].to_i]
   end
 
+  # these verify functions simply ensure the user's input is valid
   def verify_input(input, reg)
     reg.match(input)
   end

@@ -11,7 +11,7 @@ X denotes the number of correct digits in the correct position, and
 Y denotes the number of correct digits in the wrong position.\n"
 end
 
-def code_master_intro
+def code_maker_intro
   puts "--------------------------
 Welcome, code maker.
 Your job is to provide feedback to the computer's guesses, using two digits, separated by a space.
@@ -26,4 +26,5 @@ end
 
 def code_breaker_intro
   puts 'Generating code...'
+  sleep 2
 end
